@@ -1,0 +1,33 @@
+application: trackhub
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /s
+  static_dir: s
+  secure: optional
+
+- url: /tasks/trackerStatus
+  script: tasks/trackerStatus.py
+  login: required
+
+- url: /
+  script: root.py
+
+- url: /announce
+  script: main.py
+  secure: optional
+
+- url: /scrape
+  script: main.py
+  secure: optional
+
+- url: .*
+  script: main.py
+  secure: optional
+
+  
+
+
+  

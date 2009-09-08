@@ -1,0 +1,4 @@
+cron:
+- description: tracker status verification
+  url: /tasks/trackerStatus
+  schedule: every 15 minutes
