@@ -1,10 +1,4 @@
-#Kopimi -- No license. 
-
-## to get this running create a default app using google appengine launcher
-## and copy+paste this code into main.py
-
-## code available at http://gist.github.com/180819
-## running instance at http://trackhub.appspot.com/
+#Kopimi -- No license.
 
 import wsgiref.handlers
 

@@ -1,3 +1,5 @@
+#Kopimi -- No license.
+
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 

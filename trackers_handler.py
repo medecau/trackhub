@@ -1,3 +1,5 @@
+#Kopimi -- No license.
+
 import urllib
 import re
 

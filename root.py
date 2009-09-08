@@ -1,3 +1,5 @@
+#Kopimi -- No license.
+
 import wsgiref.handlers
 
 from google.appengine.ext import webapp
@@ -24,7 +26,7 @@ class RootHandler(webapp.RequestHandler):
     for each_tracker in trackers_list:
       self.response.out.write(each_tracker + 'announce<br />')
     self.response.out.write('<hr /><i>Ask not what bittorrent can do for you but what can you do for bittorrent.</i><br />' +
-                            '<a href="/s/crowd.png.torrent">test</a> - <a href="http://gist.github.com/180819">kopimi</a> - ' +
+                            '<a href="http://medecau.github.com/trackhub">kopimi</a> - ' +
                             '<a href="http://appspot.com">thanks!</a></center></body></html>')
 
 
