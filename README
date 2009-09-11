@@ -1,0 +1,32 @@
+    _____                                         _____
+  _/    /____ _____ ____ ___________ __________  /    / __
+ /_     ____//    //___/_______    /      _____|/    //  /
+ /     /____/     / ,_/   ____    /     <______/        /_______README_
+/__________/_____/  \/_______,___/|___________/____/\___\      ___      \
+                     \      \___\      \\     \   \     \\     \___)     |_
+                      \       ____      \\     \___\     \\      ____      \
+                       \      \   \      \\               \\     \____)     \
+                        \______\   \______\\__________,____\\_______________|
+
+
+Kopimi -- No license.
+
+
+About:
+
+trackhub acts like a tracker, it is not a tracker.
+all requests are redirected to public trackers.
+trackers are picked from a list, the selection is based on the first byte of the info_hash parameter.
+the trackers in the list are verified regularly and if not available or accessible they are temporarily removed.
+
+
+
+Thanks:
+
+irc.freenode.net #bittorrent and #appengine - DWKnight, uriel and others
+google
+public trackers
+tpb
+github
+
+
