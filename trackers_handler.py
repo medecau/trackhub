@@ -12,7 +12,7 @@ class TrackersHandler():
                    'http://tracker.bittorrent.am/',
                    'http://tracker.publicbits.com/',
                    'http://tracko.appspot.com/',
-                   'https://bittrk.appspot.com/announce']
+                   'https://bittrk.appspot.com/']
   def pick_tracker (self, rself):
     trackers_list = memcache.get('trackers_list')
     if trackers_list is None:

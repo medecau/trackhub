@@ -1,7 +1,7 @@
 #Kopimi -- No license.
 
 import wsgiref.handlers
-
+import logging
 
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
@@ -12,11 +12,19 @@ tHandler = TrackersHandler()
 
 class AnnounceHandler(webapp.RequestHandler):
   def get(self):
-    self.redirect(tHandler.pick_tracker(self) + 'announce?' + self.request.query_string)
+    try:
+      self.redirect(tHandler.pick_tracker(self) + 'announce?' + self.request.query_string)
+    except:
+      self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
+      logging.warning('trackers_list was empty')
 
 class ScrapeHandler(webapp.RequestHandler):
   def get(self):
+    try:
     self.redirect(tHandler.pick_tracker(self) + 'scrape?' + self.request.query_string)
+    except:
+      self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
+      logging.warning('trackers_list was empty')
 
 
 def main():
