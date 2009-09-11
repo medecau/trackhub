@@ -1,24 +1,28 @@
 #Kopimi -- No license.
 
+import logging
+
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
+
+from trackers_handler import TrackersHandler
 
 def handle_result(rpc, url):
   try:
     if rpc.get_result().status_code >= 400:
       trackers_list.remove(url)
+      logging.debug(url + ' returned ' + str(rpc.get_result().status_code))
+    else:
+      logging.debug(url + ' is OK!')
   except urlfetch.DownloadError:
     trackers_list.remove(url)
+    logging.debug(url + ' returned an ERROR exception!')
+    
 
 def create_callback(rpc, url):
   return lambda: handle_result(rpc, url)
 
-trackers_list = ['http://tracker.openbittorrent.com/',
-                 'http://tracker.publicbt.com/',
-                 'http://nemesis.1337x.org/',
-                 'http://tracker.bittorrent.am/',
-                 'http://tracker.publicbits.com/',
-                 'http://tracko.appspot.com/']
+trackers_list = TrackersHandler.trackers_list
 
 rpcs = []
 for url in trackers_list:
