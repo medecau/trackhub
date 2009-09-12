@@ -21,7 +21,7 @@ class AnnounceHandler(webapp.RequestHandler):
 class ScrapeHandler(webapp.RequestHandler):
   def get(self):
     try:
-    self.redirect(tHandler.pick_tracker(self) + 'scrape?' + self.request.query_string)
+      self.redirect(tHandler.pick_tracker(self) + 'scrape?' + self.request.query_string)
     except:
       self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
       logging.warning('trackers_list was empty')
