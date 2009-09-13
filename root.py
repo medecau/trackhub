@@ -30,7 +30,7 @@ and must accept announce requests on */announce path and scrapes on */scrape.
         self.response.out.write('active - ')
       else:
         self.response.out.write('down - ')
-      self.response.out.write(each_tracker + 'announce<br />')
+      self.response.out.write(each_tracker + '<br />')
     self.response.out.write(
     '''<br /><br /><small>active: passed the test and peers are being sent.<br />
 down: either did not answer in 10s,<br />

@@ -9,10 +9,12 @@ from google.appengine.api import memcache
 from trackers_handler import TrackersHandler
 
 def handle_result(rpc, url):
-  print ''
   try:
     if rpc.get_result().status_code > 400:
-      trackers_list.remove(url)
+      try:
+        trackers_list.remove(url)
+      except:
+        logging.debug(url + ' was not in the list')
       logging.debug(url + ' returned ' + str(rpc.get_result().status_code))
     elif rpc.get_result().status_code == 400:
       if re.match(r".*Invalid Request.*", rpc.get_result().content, re.I) is None:
@@ -23,23 +25,31 @@ def handle_result(rpc, url):
     else:
       logging.debug(url + ' is OK!')
   except urlfetch.DownloadError:
-    trackers_list.remove(url)
+    try:
+      trackers_list.remove(url)
+    except:
+      logging.debug(url + ' was not in the list') 
     logging.debug(url + ' returned an ERROR exception!')
     
 
 def create_callback(rpc, url):
   return lambda: handle_result(rpc, url)
 
-trackers_list = TrackersHandler.trackers_list
+def main():
+  global trackers_list
+  trackers_list = TrackersHandler.trackers_list[:]
+  
+  rpcs = []
+  for url in trackers_list:
+    rpc = urlfetch.create_rpc(10)
+    rpc.callback = create_callback(rpc, url)
+    urlfetch.make_fetch_call(rpc, url)
+    rpcs.append(rpc)
 
-rpcs = []
-for url in trackers_list:
-  rpc = urlfetch.create_rpc(10)
-  rpc.callback = create_callback(rpc, url)
-  urlfetch.make_fetch_call(rpc, url)
-  rpcs.append(rpc)
+  for rpc in rpcs:
+    rpc.wait()
 
-for rpc in rpcs:
-  rpc.wait()
+  memcache.set('trackers_list', trackers_list)
 
-memcache.set('trackers_list', trackers_list)
+if __name__ == '__main__':
+  main()
