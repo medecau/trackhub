@@ -12,6 +12,8 @@ tHandler = TrackersHandler()
 
 class AnnounceHandler(webapp.RequestHandler):
   def get(self):
+    if self.request.get('info_hash') is None:
+      self.redirect('/')
     try:
       self.redirect(tHandler.pick_tracker(self) + 'announce?' + self.request.query_string)
     except:
@@ -20,6 +22,8 @@ class AnnounceHandler(webapp.RequestHandler):
 
 class ScrapeHandler(webapp.RequestHandler):
   def get(self):
+    if self.request.get('info_hash') is None:
+      self.redirect('/')
     try:
       self.redirect(tHandler.pick_tracker(self) + 'scrape?' + self.request.query_string)
     except:
