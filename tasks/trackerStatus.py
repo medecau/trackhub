@@ -1,6 +1,7 @@
 #Kopimi -- No license.
 
 import logging
+import re
 
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
@@ -8,10 +9,17 @@ from google.appengine.api import memcache
 from trackers_handler import TrackersHandler
 
 def handle_result(rpc, url):
+  print ''
   try:
-    if rpc.get_result().status_code >= 400:
+    if rpc.get_result().status_code > 400:
       trackers_list.remove(url)
       logging.debug(url + ' returned ' + str(rpc.get_result().status_code))
+    elif rpc.get_result().status_code == 400:
+      if re.match(r".*Invalid Request.*", rpc.get_result().content, re.I) is None:
+        trackers_list.remove(url)
+        logging.debug(url + ' returned ' + str(rpc.get_result().status_code) + ' and body:' + rpc.get_result().content)
+      else:
+        logging.debug(url + ' is OK with a 400!')
     else:
       logging.debug(url + ' is OK!')
   except urlfetch.DownloadError:

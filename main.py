@@ -2,6 +2,7 @@
 
 import wsgiref.handlers
 import logging
+import sys
 
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
@@ -13,7 +14,7 @@ tHandler = TrackersHandler()
 class AnnounceHandler(webapp.RequestHandler):
   def get(self):
     if self.request.get('info_hash') is None:
-      self.redirect('/')
+      self.response.out.write('Invalid Request: yes its working but you need to RTFM')
     try:
       self.redirect(tHandler.pick_tracker(self) + 'announce?' + self.request.query_string)
     except:
@@ -23,9 +24,9 @@ class AnnounceHandler(webapp.RequestHandler):
 class ScrapeHandler(webapp.RequestHandler):
   def get(self):
     if self.request.get('info_hash') is None:
-      self.redirect('/')
+      self.response.out.write('Invalid Request: yes its working but you need to RTFM')
     try:
-      self.redirect(tHandler.pick_tracker(self) + 'scrape?' + self.request.query_string)
+      self.redirect(tHandler.pick_tracker(self, True) + 'scrape?' + self.request.query_string)
     except:
       self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
       logging.warning('trackers_list was empty')
