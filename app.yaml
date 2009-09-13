@@ -17,7 +17,7 @@ handlers:
 
 - url: /tasks/trackerStatus
   script: tasks/trackerStatus.py
-  login: required
+  login: admin
 
 - url: /
   script: root.py
