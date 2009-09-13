@@ -19,7 +19,10 @@ class TrackersHandler():
       trackers_list = self.trackers_list
 
     first_char = re.match(r".*info_hash=(.).*", urllib.unquote(rself.request.query_string))
-    first_char_int = ord(first_char.group(1))
+    if first_char is None:
+      first_char_int = 0
+    else:
+      first_char_int = ord(first_char.group(1))
     tracker = trackers_list[int(float(len(trackers_list))/256*first_char_int)]
     if scrape:
       tracker.replace('announce', 'scrape')
