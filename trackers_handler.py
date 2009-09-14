@@ -28,5 +28,5 @@ class TrackersHandler():
       first_char_int = ord(first_char.group(1))
     tracker = trackers_list[int(float(len(trackers_list))/256*first_char_int)]
     if scrape:
-      tracker.replace('announce', 'scrape')
+      tracker = tracker.replace('announce', 'scrape')
     return tracker
