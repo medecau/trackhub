@@ -16,11 +16,23 @@ class RootHandler(webapp.RequestHandler):
       
     self.response.out.write(
     '''<html><head><title>Bittorrent tracker hub - trackhub</title><head><body>
-<center><h1>trackhub</h1><i>beta</i>
+    <center><script type="text/javascript"><!--
+    google_ad_client = "pub-7815980884280087";
+    /* 468x15, created 9/14/09 */
+    google_ad_slot = "9061282232";
+    google_ad_width = 468;
+    google_ad_height = 15;
+    //-->
+    </script>
+    <script type="text/javascript"
+    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+<h1>trackhub</h1><i>beta</i>
 <h2>https://trackhub.appspot.com/announce</h2><br />
 <h2>Usage:</h2>Add <strong>https://trackhub.appspot.com/announce</strong> has a tracker to any .torrent file.<br />
 trackhub will then redirect requests to an open tracker.<br />
-Note that the use of <i>https</i> instead of <i>http</i> is optional but advised.<br /><br />
+<small>Note that the use of <i>https</i> instead of <i>http</i> is optional but advised.<br />
+Please do not use trackhub has your main tracker, think of trackhub has a spare tire for trackers.</small><br /><br />
 <h2>Tracker admins:</h2>
 To get included a tracker must accept connections on port 80 or 443<br />
 and must accept announce requests on */announce path and scrapes on */scrape.
