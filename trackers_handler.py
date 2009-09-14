@@ -10,7 +10,7 @@ class TrackersHandler():
                    'http://tracker.publicbt.com/announce',
                    'http://nemesis.1337x.org/announce',
                    'http://tracker.bittorrent.am/announce',
-                   'http://tracker.publicbits.com/announce',
+                   'http://tracker.publicbits.com/announce'
                    'http://tracko.appspot.com/announce',
                    'https://bittrk.appspot.com/announce']
   def pick_tracker (self, rself, scrape=False):
