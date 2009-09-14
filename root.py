@@ -27,7 +27,7 @@ class RootHandler(webapp.RequestHandler):
     <script type="text/javascript"
     src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     </script>
-<h1>trackhub</h1><i>beta</i>
+<h1>trackhub</h1><i>beta<small> - looking for a patron to help run the service.</small></i>
 <h2>https://trackhub.appspot.com/announce</h2><br />
 <h2>Usage:</h2>Add <strong>https://trackhub.appspot.com/announce</strong> has a tracker to any .torrent file.<br />
 trackhub will then redirect requests to an open tracker.<br />
