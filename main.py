@@ -16,8 +16,8 @@ class AnnounceHandler(webapp.RequestHandler):
     if self.request.get('info_hash') is None:
       self.response.out.write('Invalid Request: yes its working but you need to RTFM')
     try:
-      self.redirect(tracker=tHandler.pick_tracker(self) + '?' + self.request.query_string, permanent=True)
-      #self.response.out.write(tracker=tHandler.pick_tracker(self) + '?' + self.request.query_string)
+      #self.redirect(tHandler.pick_tracker(self) + '?' + self.request.query_string, permanent=True)
+      self.response.out.write(tHandler.pick_tracker(self) + '?' + self.request.query_string)
     except:
       self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
       logging.warning('trackers_list was empty')
