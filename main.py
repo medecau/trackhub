@@ -15,7 +15,8 @@ tHandler = TrackersHandler()
 class AnnounceHandler(webapp.RequestHandler):
   def get(self):
     try:
-      self.response.headers.add_header("Expires", str(time.asctime( time.gmtime(time.time()+86400))) + " GMT")
+      self.response.headers.add_header("Expires", time.asctime( time.gmtime(time.time()+86400)) + " GMT")
+      self.response.headers.add_header("Cache-Control", "max-age = 86400")
       self.redirect(tHandler.pick_tracker(self) + '?' + self.request.query_string, permanent=True)
     except:
       if self.request.get('info_hash') is None:
