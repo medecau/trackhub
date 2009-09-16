@@ -10,6 +10,11 @@ handlers:
   static_files: s/favicon.ico
   upload: s/favicon.ico
   expiration: "30d"  
+  
+- url: /robots.txt
+  static_files: s/robots.txt
+  upload: s/robots.txt
+  expiration: "30d"
 
 - url: /s
   static_dir: s
