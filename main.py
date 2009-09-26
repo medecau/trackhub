@@ -7,22 +7,37 @@ import time
 import re
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
-
 from trackers_handler import TrackersHandler
+
+
+## LOCAL CACHING
 
 tHandler = TrackersHandler()
 ih_1stbyte_pattern = re.pattern(r".*info_hash=(.).*")
-local_cache_timer=time.time()
+cache_max_age=120
+trackers_list = memcache.get('trackers_list')
+cache_reset_time=time.time()
+redirect_cache=[]
 
 
-def pick_tracker (self, rself, scrape=False):
-  trackers_list = memcache.get('trackers_list')
-  if trackers_list is None:
+def pick_tracker (self, rself, scrape=False): #CHOOSE ONE TRACKER
+
+  if time.time()-cache_reset_time > cache_max_age: # CLEAR LOCAL CACHE
+    cache_reset_time=time.time()
+    trackers_list = memcache.get('trackers_list')
+    local_tracker_cache=[]
+  
+  if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
     trackers_list = tHandler.trackers_list
 
   first_char = re.match(ih_1stbyte_patterny, urllib.unquote(rself.request.query_string))
   first_char_int = ord(first_char.group(1))
-  tracker = trackers_list[int(len(trackers_list)*first_char_int)/256]
+  try:
+    tracker=redirect_cache[first_char_int]
+  except:
+    tracker = trackers_list[int(len(trackers_list)*first_char_int)/256]
+    redirect_cache=tracker # LOCALY CACHE THIS DECISION
+    
   if scrape:
     return tracker.replace('announce', 'scrape')
   else:
