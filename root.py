@@ -13,12 +13,16 @@ class RootHandler(webapp.RequestHandler):
   def get(self):
     cached_trackers_list = memcache.get('trackers_list')
     trackers_list=''
-    for tracker in TrackersHandler.trackers_list:
-      if tracker in cached_trackers_list:
-        trackers_list+='<li>Active: ' + tracker + '</li>'
-      else:
-        trackers_list+='<li>Down: ' + tracker + '</li>'
-    
+    if cached_trackers_list is not None:
+      for tracker in TrackersHandler.trackers_list:
+        if tracker in cached_trackers_list:
+          trackers_list+='<li>Active: ' + tracker + '</li>'
+        else:
+          trackers_list+='<li>Down: ' + tracker + '</li>'
+    else:
+      for tracker in TrackersHandler.trackers_list:
+        trackers_list+='<li>Unknown: ' + tracker + '</li>'
+
     
     template_values = {
       'trackers_list': trackers_list,
