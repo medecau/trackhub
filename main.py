@@ -12,12 +12,13 @@ from trackers_handler import TrackersHandler
 
 tHandler = TrackersHandler()
 ih_1stbyte_pattern = re.pattern(r".*info_hash=(.).*")
+local_cache_timer=time.time()
 
 
 def pick_tracker (self, rself, scrape=False):
   trackers_list = memcache.get('trackers_list')
   if trackers_list is None:
-    trackers_list = self.trackers_list
+    trackers_list = tHandler.trackers_list
 
   first_char = re.match(ih_1stbyte_patterny, urllib.unquote(rself.request.query_string))
   first_char_int = ord(first_char.group(1))
