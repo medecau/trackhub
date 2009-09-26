@@ -1,7 +1,5 @@
 #Kopimi -- No license.
 
-import urllib
-
 from google.appengine.api import memcache
 
 class TrackersHandler():
