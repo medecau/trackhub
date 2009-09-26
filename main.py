@@ -22,7 +22,7 @@ redirect_cache=[]
 
 
 def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
-  global cache_max_age, trackers_list, cache_reset_time, redirect_cache
+  global tHandler, ih_1stbyte_pattern, cache_max_age, trackers_list, cache_reset_time, redirect_cache
   
   if time.time()-cache_reset_time > cache_max_age: # CLEAR LOCAL CACHE
     cache_reset_time=time.time()
@@ -31,14 +31,20 @@ def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
   
   if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
     trackers_list = tHandler.trackers_list
-
-  first_char = re.match(ih_1stbyte_pattern, urllib.unquote(self.request.query_string))
-  first_char_int = ord(first_char.group(1))
-  try:
+    
+  # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO 
+  first_char = ord(ih_1stbyte_pattern.match(urllib.unquote(self.request.query_string)).group(1))
+  if first_char is None: # DEFAULT TO 0
+    firs_char_int=0
+    
+  try: # TRY TO GET THE PICK FROM LOCAL MEMORY CACHE
     tracker=redirect_cache[first_char_int]
+    if memcache.incr('redir_cache_hit') is None:
+      memcache.set('redir_cache_hit',1)
   except:
     tracker = trackers_list[int(len(trackers_list)*first_char_int)/256]
     redirect_cache=tracker # LOCALY CACHE THIS DECISION
+  logging.info('redir cache hits: '+ str(memcache.get('redir_cache_hit')))
     
   if scrape:
     return tracker.replace('announce', 'scrape')
