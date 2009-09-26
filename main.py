@@ -19,7 +19,7 @@ def pick_tracker (self, rself, scrape=False):
   if trackers_list is None:
     trackers_list = self.trackers_list
 
-  first_char = re.match(ih_1stbyte_pattern, urllib.unquote(rself.request.query_string))
+  first_char = re.match(ih_1stbyte_patterny, urllib.unquote(rself.request.query_string))
   first_char_int = ord(first_char.group(1))
   tracker = trackers_list[int(len(trackers_list)*first_char_int)/256]
   if scrape:
