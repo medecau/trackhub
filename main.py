@@ -13,7 +13,7 @@ from trackers_handler import TrackersHandler
 ## LOCAL CACHING
 
 tHandler = TrackersHandler()
-ih_1stbyte_pattern = re.pattern(r".*info_hash=(.).*")
+ih_1stbyte_pattern = re.compile(r".*info_hash=(.).*")
 cache_max_age=120
 trackers_list = memcache.get('trackers_list')
 cache_reset_time=time.time()
