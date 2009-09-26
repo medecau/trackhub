@@ -16,7 +16,7 @@ tHandler = TrackersHandler()
 cache_max_age=300
 trackers_list = memcache.get('trackers_list')
 cache_reset_time=0
-redirect_cache=[]
+redirect_cache={}
 
 
 def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
@@ -25,24 +25,22 @@ def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
   if time.time()-cache_reset_time > cache_max_age: # CLEAR LOCAL CACHE
     cache_reset_time=time.time()
     trackers_list = memcache.get('trackers_list')
-    local_tracker_cache=[]
-    memcache.delete('redir_cache_hit') 
-  
-  if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
-    trackers_list = tHandler.trackers_list
+    redirect_cache={}
     
   # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO 
-  char_match=re.match(r".*info_hash=(.).*", urllib.unquote(self.request.query_string))
-  first_char = ord(char_match.group(1))
+  urlencoded_info_hash=re.match(r".*info_hash=([^?]+).*", self.request.query_string).group(1)
+  first_char = ord(urllib.unquote(urlencoded_info_hash)[:1])
     
   try: # TRY TO GET THE PICK FROM LOCAL MEMORY CACHE
-    tracker=redirect_cache[first_char]
+    tracker=redirect_cache[str(first_char)]
   except:
+    if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
+      trackers_list = tHandler.trackers_list
     tracker = trackers_list[int(len(trackers_list)*first_char)/256]
-    redirect_cache=tracker # LOCALY CACHE THIS DECISION
+    redirect_cache[str(first_char)]=tracker # LOCALY CACHE THIS DECISION
     
   if scrape:
-    return tracker.replace('announce', 'scrape')
+    return tracker[:-8]+ 'scrape' 
   else:
     return tracker
 
@@ -75,7 +73,7 @@ class ScrapeHandler(webapp.RequestHandler):
 def profile_main():
   # This is the main function for profiling 
   # We've renamed our original main() above to real_main()
-  import cProfile, pstats, StringIO
+  import cProfile, pstats, StringIO, logging
   prof = cProfile.Profile()
   prof = prof.runctx("real_main()", globals(), locals())
   stream = StringIO.StringIO()
@@ -87,7 +85,7 @@ def profile_main():
   # stats.print_callers()
   logging.info("Profile data:\n%s", stream.getvalue())
 
-def main():
+def real_main():
   application = webapp.WSGIApplication([('/announce', AnnounceHandler),
                                         ('/scrape', ScrapeHandler)],
                                        debug = True)
@@ -95,5 +93,5 @@ def main():
 
 
 if __name__ == '__main__':
-  main()
-  #main=profile_main
+  #main=real_main
+  main=profile_main

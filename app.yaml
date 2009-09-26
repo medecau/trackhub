@@ -34,7 +34,11 @@ handlers:
 - url: /scrape
   script: main.py
   secure: optional
-
+  
+- url: /flushmemcache
+  script: flushmemcache.py
+  secure: optional
+  
 - url: .*
   script: main.py
   secure: optional
