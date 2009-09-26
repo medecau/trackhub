@@ -1,7 +1,6 @@
 #Kopimi -- No license.
 
 import wsgiref.handlers
-import logging
 import sys
 import time
 import re
@@ -14,37 +13,33 @@ from trackers_handler import TrackersHandler
 ## LOCAL CACHING
 
 tHandler = TrackersHandler()
-ih_1stbyte_pattern = re.compile(r".*info_hash=(.).*")
-cache_max_age=120
+cache_max_age=300
 trackers_list = memcache.get('trackers_list')
 cache_reset_time=0
 redirect_cache=[]
 
 
 def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
-  global tHandler, ih_1stbyte_pattern, cache_max_age, trackers_list, cache_reset_time, redirect_cache
+  global tHandler, cache_max_age, trackers_list, cache_reset_time, redirect_cache
   
   if time.time()-cache_reset_time > cache_max_age: # CLEAR LOCAL CACHE
     cache_reset_time=time.time()
     trackers_list = memcache.get('trackers_list')
     local_tracker_cache=[]
+    memcache.delete('redir_cache_hit') 
   
   if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
     trackers_list = tHandler.trackers_list
     
   # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO 
-  first_char = ord(ih_1stbyte_pattern.match(urllib.unquote(self.request.query_string)).group(1))
-  if first_char is None: # DEFAULT TO 0
-    firs_char=0
+  char_match=re.match(r".*info_hash=(.).*", urllib.unquote(self.request.query_string))
+  first_char = ord(char_match.group(1))
     
   try: # TRY TO GET THE PICK FROM LOCAL MEMORY CACHE
     tracker=redirect_cache[first_char]
-    if memcache.incr('redir_cache_hit') is None:
-      memcache.set('redir_cache_hit',1)
   except:
     tracker = trackers_list[int(len(trackers_list)*first_char)/256]
     redirect_cache=tracker # LOCALY CACHE THIS DECISION
-  logging.info('redir cache hits: '+ str(memcache.get('redir_cache_hit')))
     
   if scrape:
     return tracker.replace('announce', 'scrape')
@@ -62,6 +57,7 @@ class AnnounceHandler(webapp.RequestHandler):
         self.response.out.write('Invalid Request: yes its working but you need to RTFM')
       else:
         self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
+        import logging
         logging.warning('trackers_list was empty - ' + str(sys.exc_info()[0]))
         raise
 
@@ -73,6 +69,7 @@ class ScrapeHandler(webapp.RequestHandler):
       self.redirect(pick_tracker(self, True) + '?' + self.request.query_string, permanent=True)
     except:
       self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
+      import logging
       logging.warning('trackers_list was empty')
 
 def profile_main():
