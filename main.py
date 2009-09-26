@@ -61,14 +61,15 @@ class AnnounceHandler(webapp.RequestHandler):
 
 class ScrapeHandler(webapp.RequestHandler):
   def get(self):
-    if self.request.get('info_hash') is None:
-      self.response.out.write('Invalid Request: yes its working but you need to RTFM')
     try:
       self.redirect(pick_tracker(self, True) + '?' + self.request.query_string, permanent=True)
     except:
-      self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
-      import logging
-      logging.warning('trackers_list was empty')
+      if self.request.get('info_hash') is None:
+        self.response.out.write('Invalid Request: yes its working but you need to RTFM')
+      else:
+        self.response.out.write('d14:failure reason31:No trackers available, sorry :(e')
+        import logging
+        logging.warning('trackers_list was empty')
 
 def profile_main():
   # This is the main function for profiling 
