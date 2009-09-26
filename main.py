@@ -20,11 +20,6 @@ info_hash_pattern=re.compile(r".*info_hash=([^?]+).*")
 def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
   import time
   global tHandler, cache_max_age, trackers_list, cache_reset_time, redirect_cache, info_hash_pattern
-  
-  if time.time()-cache_reset_time > cache_max_age: # CLEAR LOCAL CACHE
-    cache_reset_time=time.time()
-    trackers_list = memcache.get('trackers_list')
-    redirect_cache={}
     
   # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO 
   import urllib
@@ -40,7 +35,12 @@ def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
     redirect_cache[str(first_char)]=tracker # LOCALY CACHE THIS DECISION
     
   if scrape:
-    return tracker[:-8]+ 'scrape' 
+    return tracker[:-8]+ 'scrape'
+    
+    if time.time()-cache_reset_time > cache_max_age: # CLEAR LOCAL CACHE
+      cache_reset_time=time.time()
+      trackers_list = memcache.get('trackers_list')
+      redirect_cache={} 
   else:
     return tracker
     
