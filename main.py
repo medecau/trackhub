@@ -36,8 +36,10 @@ def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
     
   if scrape:
     return tracker[:-8]+ 'scrape'
-    
-    if time.time()-cache_reset_time > cache_max_age: # CLEAR LOCAL CACHE
+    # CLEAR LOCAL CACHE
+    # IT'S HERE TO AVOID UNNECESSARY WASTE OF CPU CYCLES.
+    # IT GETS CHECKED, JUST NOT SO OFTEN
+    if time.time()-cache_reset_time > cache_max_age:
       cache_reset_time=time.time()
       trackers_list = memcache.get('trackers_list')
       redirect_cache={} 
@@ -45,10 +47,7 @@ def pick_tracker (self, scrape=False): #CHOOSE ONE TRACKER
     return tracker
     
 def redir(url):
-  print 'HTTP/1.1 301 Moved Permanently'
-  print 'Location: ' + url
-  print ''
-  print ''
+  print 'HTTP/1.1 301 Moved Permanently\nLocation: '+url+'\n\n'
 
 class AnnounceHandler(webapp.RequestHandler):
   def get(self):
