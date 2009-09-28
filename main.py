@@ -1,18 +1,18 @@
 #Kopimi -- No license.
-import re
+from re import compile, match
 from os import environ
-from google.appengine.api import memcache
+from google.appengine.api.memcache import get
 from trackers_handler import TrackersHandler
-import time
+from time import time
 import urllib
 
 ## LOCAL CACHING
 
 tHandler = TrackersHandler()
-trackers_list = memcache.get('trackers_list')
+trackers_list = get('trackers_list')
 cache_reset_time=0
 redirect_cache={}
-info_hash_pattern=re.compile(r".*info_hash=([^?]+).*")
+info_hash_pattern=compile(r".*info_hash=([^?]+).*")
 
 
 def main():
@@ -38,11 +38,14 @@ def main():
     
     # CLEAR LOCAL CACHE
     # IT GET'S CHECKED, JUST NOT SO OFTEN
-    if time.time()-cache_reset_time > 300:
-      cache_reset_time=time.time()
-      new_trackers_list = memcache.get('trackers_list')
+    if time()-cache_reset_time > 300:
+      cache_reset_time=time()
+      new_trackers_list = get('trackers_list')
       if trackers_list != new_trackers_list: # IF THE LIST CHANGED IT MAY NEED TO GET UPDATED
-        if len(trackers_list) >= len(new_trackers_list): # LET'S ASSUME THE LIST ONLY NEEDS TO GET UPDATED WHEN ITS EITHER THE SAME SIZE OR SMALLER
+        try:
+          if len(trackers_list) >= len(new_trackers_list): # LET'S ASSUME THE LIST ONLY NEEDS TO GET UPDATED WHEN ITS EITHER THE SAME SIZE OR SMALLER
+            redirect_cache={}
+        except:
           redirect_cache={}
         trackers_list = new_trackers_list
 
