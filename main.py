@@ -15,15 +15,15 @@ trackers_list = memcache.get('trackers_list')
 cache_reset_time=0
 redirect_cache={}
 info_hash_pattern=re.compile(r".*info_hash=([^?]+).*")
-    
- 
+
+
 def main():
   global tHandler, cache_max_age, trackers_list, cache_reset_time, redirect_cache, info_hash_pattern
   
   # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO 
   urlencoded_info_hash=info_hash_pattern.match(environ['QUERY_STRING']).group(1)
   first_char = ord(urllib.unquote(urlencoded_info_hash)[:1])
-    
+  
   try: # TRY TO GET THE PICK FROM LOCAL MEMORY CACHE
     tracker=redirect_cache[str(first_char)]
   except:
@@ -31,8 +31,11 @@ def main():
       trackers_list = tHandler.trackers_list
     tracker = trackers_list[int(len(trackers_list)*first_char)/256]
     redirect_cache[str(first_char)]=tracker # LOCALY CACHE THIS DECISION
-        
-  if environ['PATH_INFO'] == '/scrape': # FOR SCRAPES
+  
+  if environ['PATH_INFO'][1:2] == 'a': # FOR ANNOUNCES
+    print 'Status: 301 Moved Permanently\nLocation: '+tracker+'?'+environ['QUERY_STRING']+'\n'
+    
+  elif environ['PATH_INFO'][1:2] == 's': # FOR SCRAPES
     print 'Status: 301 Moved Permanently\nLocation: '+tracker[:-8]+'scrape'+'?'+environ['QUERY_STRING']+'\n'
     
     # CLEAR LOCAL CACHE
@@ -42,9 +45,6 @@ def main():
       cache_reset_time=time.time()
       trackers_list = memcache.get('trackers_list')
       redirect_cache={}
-  else: # FOR ANNOUNCES
-    print 'Status: 301 Moved Permanently\nLocation: '+tracker+'?'+environ['QUERY_STRING']+'\n'
-  
 
 if __name__ == '__main__':
   main()
