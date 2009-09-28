@@ -1,5 +1,4 @@
 #Kopimi -- No license.
-import logging
 import re
 from os import environ
 from google.appengine.api import memcache
@@ -10,7 +9,6 @@ import urllib
 ## LOCAL CACHING
 
 tHandler = TrackersHandler()
-cache_max_age=300
 trackers_list = memcache.get('trackers_list')
 cache_reset_time=0
 redirect_cache={}
@@ -18,7 +16,7 @@ info_hash_pattern=re.compile(r".*info_hash=([^?]+).*")
 
 
 def main():
-  global tHandler, cache_max_age, trackers_list, cache_reset_time, redirect_cache, info_hash_pattern
+  global tHandler, trackers_list, cache_reset_time, redirect_cache
   
   # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO 
   urlencoded_info_hash=info_hash_pattern.match(environ['QUERY_STRING']).group(1)
@@ -39,12 +37,14 @@ def main():
     print 'Status: 301 Moved Permanently\nLocation: '+tracker[:-8]+'scrape'+'?'+environ['QUERY_STRING']+'\n'
     
     # CLEAR LOCAL CACHE
-    # IT'S HERE TO AVOID UNNECESSARY WASTE OF CPU CYCLES.
-    # IT GETS CHECKED, JUST NOT SO OFTEN
-    if time.time()-cache_reset_time > cache_max_age:
+    # IT GET'S CHECKED, JUST NOT SO OFTEN
+    if time.time()-cache_reset_time > 300:
       cache_reset_time=time.time()
-      trackers_list = memcache.get('trackers_list')
-      redirect_cache={}
+      new_trackers_list = memcache.get('trackers_list')
+      if trackers_list != new_trackers_list: # IF THE LIST CHANGED IT MAY NEED TO GET UPDATED
+        if len(trackers_list) >= len(new_trackers_list): # LET'S ASSUME THE LIST ONLY NEEDS TO GET UPDATED WHEN ITS EITHER THE SAME SIZE OR SMALLER
+          redirect_cache={}
+        trackers_list = new_trackers_list
 
 if __name__ == '__main__':
   main()
