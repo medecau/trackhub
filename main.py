@@ -24,48 +24,16 @@ def main():
   urlencoded_info_hash=info_hash_pattern.match(environ['QUERY_STRING']).group(1)
   first_char = ord(unquote(urlencoded_info_hash)[:1])
   
-  try: # TRY TO GET THE PICK FROM LOCAL MEMORY CACHE
-    tracker=redirect_cache[str(first_char)]
-  except:
-    if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
-      trackers_list = tHandler.trackers_list
-    tracker = trackers_list[int(len(trackers_list)*first_char)/256]
-    redirect_cache[str(first_char)]=tracker # LOCALY CACHE THIS DECISION
+  if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
+    trackers_list = tHandler.trackers_list
+  tracker = trackers_list[int(len(trackers_list)*first_char)/256]
+
   
   if environ['PATH_INFO'][1:2] == 'a': # FOR ANNOUNCES
     print 'Status: 301 Moved Permanently\nLocation: '+tracker+'?'+environ['QUERY_STRING']+'\n'
     
   elif environ['PATH_INFO'][1:2] == 's': # FOR SCRAPES
     print 'Status: 301 Moved Permanently\nLocation: '+tracker[:-8]+'scrape?'+environ['QUERY_STRING']+'\n'
-    
-
-    # NOW LET'S SYNC THE REDIRECT CACHE BETWEEN INSTANCES
-    if time()-cache_sync_time>30:
-      new_redirect_cache=get('redirect_cache')
-      try:
-        if len(redirect_cache) < len(new_redirect_cache):
-          redirect_cache.update(new_redirect_cache)
-          set('redirect_cache', redirect_cache)
-        else:
-          redirect_cache=new_redirect_cache
-      except:
-        redirect_cache={}
-        set('redirect_cache', redirect_cache) # SAVE THE RESET CACHE TO MEMCACHE
-        
-      # CLEAR LOCAL CACHE
-      # IT GET'S CHECKED, JUST NOT SO OFTEN
-      if time()-cache_reset_time > 301:
-        cache_reset_time=time()
-        new_trackers_list = get('trackers_list')
-        if trackers_list != new_trackers_list: # IF THE LIST CHANGED IT MAY NEED TO GET UPDATED
-          try:
-            if len(trackers_list) >= len(new_trackers_list): # LET'S ASSUME THE LIST ONLY NEEDS TO GET UPDATED WHEN ITS EITHER THE SAME SIZE OR SMALLER
-              redirect_cache={}
-              set('redirect_cache', redirect_cache) # SAVE THE RESET CACHE TO MEMCACHE
-          except:
-            redirect_cache={}
-            set('redirect_cache', redirect_cache) # SAVE THE RESET CACHE TO MEMCACHE
-          trackers_list = new_trackers_list
 
 if __name__ == '__main__':
   main()
