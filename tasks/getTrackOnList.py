@@ -3,7 +3,7 @@
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 
-api_url='http://track-on.appspot.com/api/live'
+api_url='http://trackon.org/api/live'
 
 result = urlfetch.fetch(api_url)
 if result.status_code==200:
