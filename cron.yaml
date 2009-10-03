@@ -6,4 +6,4 @@ cron:
 #  schedule: every 15 minutes
 - description: list update
   url: /tasks/getTrackOnList
-  schedule: every 1 minutes
+  schedule: every 5 minutes
