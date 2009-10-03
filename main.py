@@ -11,22 +11,19 @@ from urllib import unquote
 
 tHandler = TrackersHandler()
 trackers_list = get('trackers_list')
-cache_reset_time=0
-cache_sync_time=0
-redirect_cache={}
 info_hash_pattern=compile(r".*info_hash=([^?]+).*")
 
 
 def main():
-  global tHandler, trackers_list, cache_reset_time, redirect_cache
+  global trackers_list
   
   # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO 
   urlencoded_info_hash=info_hash_pattern.match(environ['QUERY_STRING']).group(1)
   first_char = ord(unquote(urlencoded_info_hash)[:1])
   
   if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
-    trackers_list = tHandler.trackers_list
-  tracker = trackers_list[int(len(trackers_list)*first_char)/256]
+    trackers_list = tHandler.trackers_list[:]
+  tracker = trackers_list[int(len(trackers_list)*first_char/256)]
 
   
   if environ['PATH_INFO'][1:2] == 'a': # FOR ANNOUNCES

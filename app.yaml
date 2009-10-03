@@ -24,6 +24,10 @@ handlers:
   script: tasks/trackerStatus.py
   login: admin
 
+- url: /tasks/getTrackOnList
+  script: tasks/getTrackOnList.py
+  login: admin
+
 - url: /
   script: root.py
 
