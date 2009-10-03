@@ -1,0 +1,342 @@
+<html>
+	<head>
+		<style>
+		/* Containers
+		----------------------------------------------------------------------------------------------------*/
+		.container_8 {
+			margin-left: auto;
+			margin-right: auto;
+			width: 960px;
+		}
+
+		/* Grid >> Global
+		----------------------------------------------------------------------------------------------------*/
+
+		.grid_1,
+		.grid_2,
+		.grid_3,
+		.grid_4,
+		.grid_5,
+		.grid_6,
+		.grid_7,
+		.grid_8 {
+			display:inline;
+			float: left;
+			position: relative;
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+
+		/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+		----------------------------------------------------------------------------------------------------*/
+
+		.alpha {
+			margin-left: 0;
+		}
+
+		.omega {
+			margin-right: 0;
+		}
+
+		/* Grid >> 8 Columns
+		----------------------------------------------------------------------------------------------------*/
+
+		.container_8 .grid_1 {
+			width:100px;
+		}
+
+		.container_8 .grid_2 {
+			width:220px;
+		}
+
+		.container_8 .grid_3 {
+			width:340px;
+		}
+
+		.container_8 .grid_4 {
+			width:460px;
+		}
+
+		.container_8 .grid_5 {
+			width:580px;
+		}
+
+		.container_8 .grid_6 {
+			width:700px;
+		}
+
+		.container_8 .grid_7 {
+			width:820px;
+		}
+
+		.container_8 .grid_8 {
+			width:940px;
+		}
+
+
+
+		/* Prefix Extra Space >> 8 Columns
+		----------------------------------------------------------------------------------------------------*/
+
+		.container_8 .prefix_1 {
+			padding-left:120px;
+		}
+
+		.container_8 .prefix_2 {
+			padding-left:240px;
+		}
+
+		.container_8 .prefix_3 {
+			padding-left:360px;
+		}
+
+		.container_8 .prefix_4 {
+			padding-left:480px;
+		}
+
+		.container_8 .prefix_5 {
+			padding-left:600px;
+		}
+
+		.container_8 .prefix_6 {
+			padding-left:720px;
+		}
+
+		.container_8 .prefix_7 {
+			padding-left:840px;
+		}
+
+
+
+		/* Suffix Extra Space >> 8 Columns
+		----------------------------------------------------------------------------------------------------*/
+
+		.container_8 .suffix_1 {
+			padding-right:120px;
+		}
+
+		.container_8 .suffix_2 {
+			padding-right:240px;
+		}
+
+		.container_8 .suffix_3 {
+			padding-right:360px;
+		}
+
+		.container_8 .suffix_4 {
+			padding-right:480px;
+		}
+
+		.container_8 .suffix_5 {
+			padding-right:600px;
+		}
+
+		.container_8 .suffix_6 {
+			padding-right:720px;
+		}
+
+		.container_8 .suffix_7 {
+			padding-right:840px;
+		}
+
+
+
+		/* Push Space >> 8 Columns
+		----------------------------------------------------------------------------------------------------*/
+
+		.container_8 .push_1 {
+			left:120px;
+		}
+
+		.container_8 .push_2 {
+			left:240px;
+		}
+
+		.container_8 .push_3 {
+			left:360px;
+		}
+
+		.container_8 .push_4 {
+			left:480px;
+		}
+
+		.container_8 .push_5 {
+			left:600px;
+		}
+
+		.container_8 .push_6 {
+			left:720px;
+		}
+
+		.container_8 .push_7 {
+			left:840px;
+		}
+
+
+
+		/* Pull Space >> 8 Columns
+		----------------------------------------------------------------------------------------------------*/
+
+		.container_8 .pull_1 {
+			left:-120px;
+		}
+
+		.container_8 .pull_2 {
+			left:-240px;
+		}
+
+		.container_8 .pull_3 {
+			left:-360px;
+		}
+
+		.container_8 .pull_4 {
+			left:-480px;
+		}
+
+		.container_8 .pull_5 {
+			left:-600px;
+		}
+
+		.container_8 .pull_6 {
+			left:-720px;
+		}
+
+		.container_8 .pull_7 {
+			left:-840px;
+		}
+
+
+
+
+		/* Clear Floated Elements
+		----------------------------------------------------------------------------------------------------*/
+
+		/* http://sonspring.com/journal/clearing-floats */
+
+		.clear {
+			clear: both;
+			display: block;
+			overflow: hidden;
+			visibility: hidden;
+			width: 0;
+			height: 0;
+		}
+
+		/* http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack */
+
+		.clearfix:after {
+			clear: both;
+			content: ' ';
+			display: block;
+			font-size: 0;
+			line-height: 0;
+			visibility: hidden;
+			width: 0;
+			height: 0;
+		}
+
+		.clearfix {
+			display: inline-block;
+		}
+
+		* html .clearfix {
+			height: 1%;
+		}
+
+		.clearfix {
+			display: block;
+		}
+		.header {
+		color: #444444;
+		font-family: times,Times New Roman,times-roman,georgia,serif;
+		font-size: 48px;
+		font-weight: 100;
+		letter-spacing: -1px;
+		line-height: 40px;
+		margin: 0;
+		padding: 0;
+		text-transform: none;
+		}
+		.smallheader {
+		color: #444444;
+		font-family: times,Times New Roman,times-roman,georgia,serif;
+		font-size: 28px;
+		font-weight: 100;
+		letter-spacing: -1px;
+		line-height: 40px;
+		margin: 0;
+		padding: 0;
+		text-transform: none;
+		}
+		.paragraph {
+		color: #444444;
+		font-family: times,Times New Roman,times-roman,georgia,serif;
+		font-size: 14px;
+		line-height: 20px;
+		margin: 0;
+		padding: 0;
+		text-transform: uppercase;
+		}
+		#announce {
+			margin-top:20pt;
+			margin-bottom:30pt;
+			letter-spacing:-0.5pt;
+		}
+		</style>
+		<title>Bittorrent tracker hub - trackhub</title>
+	<head>
+	<body>
+    <div class="container_8">
+<div class="grid_6 alpha">
+<h1 class="header">trackhub</h1><p class="paragraph"><i>beta<small> - now with less fat and more juice</small></i></p>
+</div>
+<div class="grid_2 omega">
+<a href='http://www.pledgie.com/campaigns/6070'><img alt='Click here to lend your support to: trackhub and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/6070.png?skin_name=chrome' border='0' /></a>
+</div>
+<div class="grid_8 alpha omega"><hr /></div><div class="grid_4 alpha">
+<h2 id="announce" class="smallheader">https://trackhub.appspot.com/announce</h2>
+
+<h2 class="smallheader">Trackers in the list:</h2><p class="paragraph">
+<ul>{% for tracker in trackers_list %}
+<li />  {{tracker}}
+{% endfor %}</ul>
+<br /><br /><small>This list is provided by <a href="http://track-on.appspot.com/">Trackon</a>, thanks.</small></p>
+</div>
+
+<div class="grid_4 omega">
+<h2 class="smallheader">Usage:</h2>
+<p class="paragraph">Add <strong>https://trackhub.appspot.com/announce</strong> has a tracker to any .torrent file.<br />
+trackhub will then redirect requests to an open tracker.<br />
+<small>Note that the use of <i>https</i> instead of <i>http</i> is optional but advised.<br />
+Please do not use trackhub has your main tracker,<br />
+think of trackhub has a spare tire for trackers.</small><br /><br /></p>
+
+<h2 class="smallheader">Tracker admins:</h2>
+<p class="paragraph">Trackhub is now using the list of trackers provided by <a href="http://track-on.appspot.com/">Trackon</a>. Please refer to Trackon's documentation for details.<br /><br />
+</p>
+
+
+<h2 class="smallheader">Patronage:</h2>
+<p class="paragraph">trackhub is looking for a kind patron to help run the service.<br />
+Currently it's limited to 1.3 million requests per day.<br />
+Back of the envelope calculations estimate that,with billing active. it is possible to, at least, double that before incurring any expenses.<br />
+<small>>8cpu_ms, >.45KiB outgoing and even less for incoming data per request.</small><br />
+With a cost of 1 USD per day trackhub is even able to get well over 6 million requests.<br />
+<small>If you know someone at Google or any other internet/bittorrent related company tell them about trackhub.</small>
+<br /><br />
+</p>
+
+</div>
+<div class="grid_8 alpha omega"><hr /><i>Ask not what bittorrent can do for you but what can you do for bittorrent.</i><br />
+<a href="http://medecau.github.com/trackhub">kopimi</a> - <a href="http://appspot.com">thanks!</a> - medecau at gmail</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-4146423-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+	</body>
+</html>
