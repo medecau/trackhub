@@ -14,5 +14,10 @@ if result.status_code==200:
     trackers.remove('http://trackhub.appspot.com/announce')
   if trackers.count('https://trackhub.appspot.com/announce')>0:
     trackers.remove('https://trackhub.appspot.com/announce')
+  for tracker in trackers:
+    if tracker[:5] == 'https':
+      if trackers.count(tracker.replace('https','http'))>0:
+        trackers.remove(tracker.replace('https','http'))
+          
   trackers.sort()
   memcache.set('trackers_list', trackers)
