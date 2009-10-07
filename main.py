@@ -23,7 +23,7 @@ def main():
   
   if trackers_list is None: # ATTEMPT TO SEND THEM SOMEWHERE 
     trackers_list = tHandler.trackers_list[:]
-  tracker = trackers_list[int(len(trackers_list)*first_char/256)]
+  tracker = trackers_list[first_char%len(trackers_list)]
 
   
   if environ['PATH_INFO'][1:2] == 'a': # FOR ANNOUNCES
