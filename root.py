@@ -9,7 +9,6 @@ from google.appengine.api import memcache
 from trackers_handler import TrackersHandler
 
 class RootHandler(webapp.RequestHandler):
-  
   def get(self):
     cached_trackers_list = memcache.get('trackers_list')
     
@@ -19,6 +18,7 @@ class RootHandler(webapp.RequestHandler):
         
     path = os.path.join(os.path.dirname(__file__), 'index.html')
     self.response.out.write(template.render(path, template_values))
+
 
 def main():
   application = webapp.WSGIApplication([('/', RootHandler)],
