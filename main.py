@@ -4,7 +4,6 @@ from re import compile, match
 from os import environ
 from google.appengine.api.memcache import get, set
 from trackers_handler import TrackersHandler
-from time import time
 from urllib import unquote
 
 ## LOCAL CACHING
@@ -25,7 +24,6 @@ def main():
     trackers_list = tHandler.trackers_list[:]
   tracker = trackers_list[first_char%len(trackers_list)]
 
-  
   if environ['PATH_INFO'][1:2] == 'a': # FOR ANNOUNCES
     print 'Status: 301 Moved Permanently\nLocation: '+tracker+'?'+environ['QUERY_STRING']+'\n'
     

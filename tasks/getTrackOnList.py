@@ -4,7 +4,7 @@ from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 
 self_domain='trackhub.appspot.com'
-api_url='http://track-on.appspot.com/api/live'
+api_url='http://www.trackon.org/api/live'
 
 result = urlfetch.fetch(api_url)
 if result.status_code==200:
