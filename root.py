@@ -6,8 +6,6 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
-from trackers_handler import TrackersHandler
-
 class RootHandler(webapp.RequestHandler):
   def get(self):
     cached_trackers_list = memcache.get('trackers_list')

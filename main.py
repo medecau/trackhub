@@ -30,8 +30,11 @@ def main():
     request_counter+=1
     if request_counter > 10000:
         trackers_list = get('trackers_list')
-    # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO 
-    urlencoded_info_hash=info_hash_pattern.match(environ['QUERY_STRING']).group(1)
+    # GET THE INT VALUE OF THE FIRST BYTE FROM THE HASH INFO
+    try:
+        urlencoded_info_hash=info_hash_pattern.match(environ['QUERY_STRING']).group(1)
+    except:
+        urlencoded_info_hash=' '
     first_char = ord(unquote(urlencoded_info_hash)[:1])
     
     tracker = trackers_list[first_char%len(trackers_list)]
