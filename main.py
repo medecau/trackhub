@@ -5,7 +5,6 @@ from google.appengine.api.memcache import set
 from os import environ
 from re import compile
 from re import match
-from trackers_handler import TrackersHandler
 from urllib import unquote
 
 ## LOCAL CACHING
